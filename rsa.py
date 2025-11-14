@@ -7,41 +7,34 @@ import random
 def random_number():
     global random1
     global random2
-    random1 = random.randint(1, 10**100)
-    random2 = random.randint(1, 10**100)
+    random1 = random.randint(100, 5000)
+    random2 = random.randint(100, 5000)
 
 # checks if these random numbers are prime, helper function for make_prime
 def prime_check(number):
     prime_check = 0
-    for i in range(2, number): # if no remainder, then its not prime
-        if number % i == 0:
-            prime_check += 1
-    if prime_check != 0: # no remainder
+
+    if number < 2:
         return False
-    else: # remainders, must be prime
-        return True
+    for i in range(2, int(number**0.5) + 1): # if no remainder, then its not prime
+        if number % i == 0:
+            return False
+    return True
     
 # get closest prime number by recursively calling 
 def make_prime(number):
     if prime_check(number): # if number is prime, just return number
         return number
     else: # otherwise, keep adding 1, recursively call to get actual prime number
-        number = number + 1
-        make_prime(number)
+        return make_prime(number+1)
 
 # get encryption exponent e, d, also n
 def getting_keys():
     # making global so i can print
-    global e
-    global n
-    global d
-    global p
-    global q
+    global e, n, d, p, q
 
     # get p and q values
-    prime_check(random1)
     p = make_prime(random1)
-    prime_check(random2)
     q = make_prime(random2)
 
     # multiply together for n 
@@ -50,55 +43,57 @@ def getting_keys():
     # e must 1 < e < Φ(n) AND gcd(e, Φ(n)) = 1 
     etf = (p - 1) * (q - 1) # Φ(n)
     e = 0
+    d = 0 
 
-    for e in range(2, etf): # first condition
-        if gcd(e, etf) == 1: # second condition
-            e = e
+    for i in range(2, etf): # first condition
+        if gcd(i, etf) == 1: # second condition
+            e = i
+            break
 
     # to get d, (d * e) ≡ 1 mod Φ(n)
-    d = (1 % etf)/e
+    for i in range(1, etf):
+        if (i * e) % etf == 1:
+            d = i
+            break
 
     return n, e, d
     # public key = (n, e), private key = (n, d)
      
 # the message is encrypted using the public key, which is (n, e)
 def encrypt(message, e, n): 
-    global C
-    global encrypted_list
-
-    characters = []
     encrypted_list = [] 
 
     for i in message:
-        new = ord(message) # need to convert from string to unicode in order to use in equation
-        characters.append(new)
-
-    for msg_char in characters:
-        C = (msg_char ** e) % n
-        encrypted_list.append(C)
+        msg_char = ord(i) # need to convert from string to unicode in order to use in equation
+        C = (pow(msg_char, e, n)) # then with each char, can get C value
+        encrypted_list.append(C) # then add to the encrypted list!
 
     return encrypted_list
 
 # the message is decrypted using the private key, which is (n, d)
-def decrypt(C, d, n): 
-    message = (C ** d) % n
+def decrypt(cipher, d, n): 
+    message = ""
+
+    for i in cipher:
+        message += chr(pow(i, d, n))
     return message
 
 def main():
-    message = input("Enter message")
+    message = input("Enter message: ") # input!
 
     random_number()
     getting_keys()
 
     encrypted = encrypt(message, e, n)
-    decrypted = decrypt(C, d, n)
+    decrypted = decrypt(encrypted, d, n) 
+
     print(p)
     print(q)
     print(e)
     print(d)
     
-    print("Ciphertext: {encrypted}")
-    print("Decrypted message: {decrypted}")
+    print("Ciphertext:", encrypted)
+    print("Decrypted message:", decrypted)
 
 main()
 
