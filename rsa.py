@@ -29,31 +29,44 @@ def make_prime(number):
         number = number + 1
         make_prime(number)
 
-# needed for key generation, checks for "positive integers less than or equal to n that are relatively prime to n"
-def euler_totient_function (number):
-    result = 1
-    for i in range(2, number):
-        if gcd(i, number) == 1:
-            result += 1 # counts for each coprime
-    return result
+# get encryption exponent e, d, also n
+def getting_keys():
 
-# get encryption exponent e 
-
-    
-def image_classification(m):
-
-    # get p and q values 
+    # get p and q values
     prime_check(random1)
     p = make_prime(random1)
     prime_check(random2)
     q = make_prime(random2)
 
-    # multiply together
+    # multiply together for n 
     n = p*q
 
+    # e must 1 < e < Φ(n) AND gcd(e, Φ(n)) = 1 
+    etf = (p - 1) * (q - 1) # Φ(n)
+    e = 0
+
+    for e in range(2, etf): # first condition
+        if gcd(e, etf) == 1: # second condition
+            e = e
+
+    # to get d, (d * e) ≡ 1 mod Φ(n)
+    d = (1 % etf)/e
+
+    return n, e, d
+    # public key = (n, e), private key = (n, d)
+    
+
+
+
+
+    
+def image_classification(m):
+
+    # get p and q values 
+    
+
+    # multiply together
     # get n value 
-
-
     pass
 
 # sources: 
