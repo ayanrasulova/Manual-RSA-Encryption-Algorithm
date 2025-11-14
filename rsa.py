@@ -1,4 +1,4 @@
-import math 
+from math import gcd
 import random
 
 # must output p q e d 
@@ -28,14 +28,28 @@ def make_prime(number):
     else: # otherwise, keep adding 1, recursively call to get actual prime number
         number = number + 1
         make_prime(number)
+
+# needed for key generation, checks for "positive integers less than or equal to n that are relatively prime to n"
+def euler_totient_function (number):
+    result = 1
+    for i in range(2, number):
+        if gcd(i, number) == 1:
+            result += 1 # counts for each coprime
+    return result
+
+# get encryption exponent e 
+
     
 def image_classification(m):
 
     # get p and q values 
     prime_check(random1)
-    make_prime(random1)
+    p = make_prime(random1)
     prime_check(random2)
-    make_prime(random2)
+    q = make_prime(random2)
+
+    # multiply together
+    n = p*q
 
     # get n value 
 
@@ -44,4 +58,5 @@ def image_classification(m):
 
 # sources: 
 # https://www.reubenbinns.com/blog/self-sufficient-programming-rsa-cryptosystem-with-plain-python/
+# https://www.geeksforgeeks.org/computer-networks/rsa-algorithm-cryptography/
 
