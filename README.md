@@ -1,4 +1,4 @@
-<h2 align="center"> **Manual-RSA-Encryption-Algorithm** </h2>
+<h2 align="center"> Manual-RSA-Encryption-Algorithm</h2>
 
 <p align="center"> Implementing RSA (Rivest-Shamir-Adleman) encryption algorithm manually in Python </p>
 
