@@ -7,8 +7,8 @@ import random
 def random_number():
     global random1
     global random2
-    random1 = random.randint(100, 5000)
-    random2 = random.randint(100, 5000)
+    random1 = random.randint(10000, 50000)
+    random2 = random.randint(10000, 50000)
 
 # checks if these random numbers are prime, helper function for make_prime
 def prime_check(number):
@@ -45,10 +45,9 @@ def getting_keys():
     e = 0
     d = 0 
 
-    for i in range(2, etf): # first condition
-        if gcd(i, etf) == 1: # second condition
-            e = i
-            break
+    e = random.randrange(2, etf) # firts condition.. in the range 
+    while gcd(e, etf) != 1:
+        e = random.randrange(2,etf) # keep recalling it randomly
 
     # to get d, (d * e) ≡ 1 mod Φ(n)
     for i in range(1, etf):
@@ -79,12 +78,12 @@ def decrypt(cipher, d, n):
     return message
 
 def main():
-    message = input("Enter message: ") # input!
+    M = input("Enter message: ") # input!
 
     random_number()
     getting_keys()
 
-    encrypted = encrypt(message, e, n)
+    encrypted = encrypt(M, e, n)
     decrypted = decrypt(encrypted, d, n) 
 
     print("p:", p)
