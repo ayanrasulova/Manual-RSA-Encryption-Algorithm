@@ -31,6 +31,12 @@ def make_prime(number):
 
 # get encryption exponent e, d, also n
 def getting_keys():
+    # making global so i can print
+    global e
+    global n
+    global d
+    global p
+    global q
 
     # get p and q values
     prime_check(random1)
@@ -54,20 +60,47 @@ def getting_keys():
 
     return n, e, d
     # public key = (n, e), private key = (n, d)
+     
+# the message is encrypted using the public key, which is (n, e)
+def encrypt(message, e, n): 
+    global C
+    global encrypted_list
+
+    characters = []
+    encrypted_list = [] 
+
+    for i in message:
+        new = ord(message) # need to convert from string to unicode in order to use in equation
+        characters.append(new)
+
+    for msg_char in characters:
+        C = (msg_char ** e) % n
+        encrypted_list.append(C)
+
+    return encrypted_list
+
+# the message is decrypted using the private key, which is (n, d)
+def decrypt(C, d, n): 
+    message = (C ** d) % n
+    return message
+
+def main():
+    message = input("Enter message")
+
+    random_number()
+    getting_keys()
+
+    encrypted = encrypt(message, e, n)
+    decrypted = decrypt(C, d, n)
+    print(p)
+    print(q)
+    print(e)
+    print(d)
     
+    print("Ciphertext: {encrypted}")
+    print("Decrypted message: {decrypted}")
 
-
-
-
-    
-def image_classification(m):
-
-    # get p and q values 
-    
-
-    # multiply together
-    # get n value 
-    pass
+main()
 
 # sources: 
 # https://www.reubenbinns.com/blog/self-sufficient-programming-rsa-cryptosystem-with-plain-python/
