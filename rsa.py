@@ -87,10 +87,10 @@ def main():
     encrypted = encrypt(message, e, n)
     decrypted = decrypt(encrypted, d, n) 
 
-    print(p)
-    print(q)
-    print(e)
-    print(d)
+    print("p:", p)
+    print("q:", q)
+    print("e:", e)
+    print("d:", d)
     
     print("Ciphertext:", encrypted)
     print("Decrypted message:", decrypted)
